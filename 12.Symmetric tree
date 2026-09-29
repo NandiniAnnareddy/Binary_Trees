@@ -1,0 +1,37 @@
+class Solution:
+    def isSymmetric(self, root: TreeNode | None) -> bool:
+        if root is None:
+            return True
+        result = []
+        null = float("-inf")
+        if root.left is None and root.right is None:
+            return True
+        queue = [[root]]
+        while queue:
+            arr = queue.pop()
+            add_to_result = []
+            for i in arr:
+                if i is not null:
+                    add_to_result.append(i.val)
+                else:
+                    add_to_result.append(null)
+            result.append(add_to_result)
+            add_to_queue = []
+            for i in arr:
+                if i is not null and i.left is not None:
+                    add_to_queue.append(i.left)
+                else:
+                    add_to_queue.append(null)
+                if i is not null and i.right is not None:
+                    add_to_queue.append(i.right)
+                else:
+                    add_to_queue.append(null)
+            if add_to_queue != [null] * len(add_to_queue):
+                queue.append(add_to_queue)
+        for i in range(1,len(result)):
+            half = len(result[i]) // 2
+            left = result[i][:half]
+            right = result[i][half:]
+            if left != right[::-1]:
+                return False
+        return True
