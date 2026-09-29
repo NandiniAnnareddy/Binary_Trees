@@ -1,0 +1,48 @@
+class Solution:
+    def boundaryTraversal(self, root):
+        if root is None:
+            return []
+
+        if root.left is None and root.right is None:
+            return [root.data]
+
+        left = []
+        leaf = []
+        right = []
+
+        result = [root.data]
+
+        # Left boundary
+        node = root.left
+        while node:
+            if node.left is not None or node.right is not None:
+                left.append(node.data)
+            if node.left:
+                node = node.left
+            else:
+                node = node.right
+        # Leaf nodes
+        def find_leaves(node):
+            if node is None:
+                return
+            if node.left is None and node.right is None:
+                leaf.append(node.data)
+                return
+            find_leaves(node.left)
+            find_leaves(node.right)
+        find_leaves(root)
+        # Right boundary
+        node = root.right
+        while node:
+            if node.left is not None or node.right is not None:
+                right.append(node.data)
+            if node.right:
+                node = node.right
+            else:
+                node = node.left
+        # Combine
+        result += left
+        result += leaf
+        result += right[::-1]
+
+        return result
