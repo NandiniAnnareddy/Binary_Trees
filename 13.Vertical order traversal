@@ -1,0 +1,26 @@
+class Solution:
+    def verticalTraversal(self, root: TreeNode | None) -> list[list[int]]:
+        nodes = []
+        queue = []
+        queue.append([root, 0, 0])
+        while queue:
+            popped = queue.pop(0)
+            node = popped[0]
+            vertical = popped[1]
+            level = popped[2]
+            nodes.append(popped)
+            if node.left:
+                queue.append([node.left, vertical - 1, level + 1])
+            if node.right:
+                queue.append([node.right, vertical + 1, level + 1])
+        nodes.sort(key=lambda x: (x[1], x[2], x[0].val))
+        mapp = {}
+        for node in nodes:
+            if node[1] not in mapp:
+                mapp[node[1]] = [node[0].val]
+            else:
+                mapp[node[1]].append(node[0].val)
+        result = []
+        for key, value in mapp.items():
+            result.append(value)
+        return result
