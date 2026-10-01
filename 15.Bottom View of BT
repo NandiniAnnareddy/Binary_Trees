@@ -1,0 +1,37 @@
+'''
+Definition for Node
+class Node:
+    def __init__(self, val):
+        self.data = val
+        self.right = None
+        self.left = None
+'''
+
+class Solution:
+    def bottomView(self, root):
+        queue = [[root,0,0]]
+        result = []
+        while queue:
+            popped = queue.pop(0)
+            result.append(popped)
+            node = popped[0]
+            vertical = popped[1]
+            level = popped[2]
+            if node.left:
+                queue.append([node.left,vertical-1,level+1])
+            if node.right:
+                queue.append([node.right,vertical+1,level+1])
+        result.sort(key = lambda x: (x[1],x[2]))
+        mapp = {}
+        for i in result:
+            if i[1] in mapp:
+                mapp[i[1]].append(i[0].data)
+            else:
+                mapp[i[1]] = [i[0].data]
+        ans = []
+        for key,values in mapp.items():
+            if len(values)>1:
+                values = values[::-1]
+            ans.append(values[0])
+        return ans
+            
