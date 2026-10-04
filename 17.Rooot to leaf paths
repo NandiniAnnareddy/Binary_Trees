@@ -1,0 +1,30 @@
+"""
+Definition of Node
+class Node:
+    def _init_(self,val):
+        self.data = val
+        self.left = None
+        self.right = None
+"""
+
+class Solution:
+    def paths(self, root):
+        arr = []
+        result = []
+        # code here
+        def dfs(node,arr,left):
+            if node is None:
+                return
+            arr.append(node.data)
+            if node.left is None and node.right is None:
+                result.append(arr.copy())
+                arr.pop()
+                return
+            dfs(node.left,arr,result)
+            dfs(node.right,arr,result)
+            arr.pop()
+        dfs(root,arr,result)
+        return result
+        
+            
+            
